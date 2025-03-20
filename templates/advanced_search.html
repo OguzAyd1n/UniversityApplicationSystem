@@ -1,0 +1,36 @@
+<!-- templates/advanced_search.html -->
+{% extends "base.html" %}
+
+{% block title %}Gelişmiş Arama{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Gelişmiş Üniversite Arama</h2>
+    <div class="card">
+        <div class="card-body">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.university_name.label(class="form-control-label") }}
+                    {{ form.university_name(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.start_date.label(class="form-control-label") }}
+                    {{ form.start_date(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.end_date.label(class="form-control-label") }}
+                    {{ form.end_date(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.application_status.label(class="form-control-label") }}
+                    {{ form.application_status(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Ara</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

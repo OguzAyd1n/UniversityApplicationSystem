@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Ana Sayfa{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="jumbotron">
+        <h1 class="display-4">Üniversite Başvuru Sistemine Hoş Geldiniz</h1>
+        <p class="lead">Hayalinizdeki üniversiteye başvurmak için doğru yerdesiniz!</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Size Özel Bölüm Önerileri -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Size Özel Bölüm Önerileri</h5>
+                </div>
+                <div class="card-body">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.has_osym_info %}
+                            {% if recommendations %}
+                                <div class="list-group">
+                                    {% for dept in recommendations %}
+                                    <a href="{{ url_for('department_detail', department_id=dept.id) }}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ dept.name }}</h6>
+                                            <small>{{ dept.score_type }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ dept.university.name }}</p>
+                                        {% if dept.score_info %}
+                                        <small>Taban Puan: {{ "%.3f"|format(dept.score_info.base_score) }}</small>
+                                        {% endif %}
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="text-muted">Henüz size özel bir öneri bulunmuyor.</p>
+                            {% endif %}
+                        {% else %}
+                            <div class="alert alert-info">
+                                <p>Size özel öneriler için lütfen <a href="{{ url_for('osym_info') }}">ÖSYM bilgilerinizi ekleyin</a>.</p>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-info">
+                            <p>Size özel öneriler için lütfen <a href="{{ url_for('login') }}">giriş yapın</a> veya <a href="{{ url_for('register') }}">kayıt olun</a>.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Popüler Üniversiteler -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Popüler Üniversiteler</h5>
+                </div>
+                <div class="card-body">
+                    {% if popular_universities %}
+                        <div class="list-group">
+                            {% for university in popular_universities %}
+                            <a href="{{ url_for('university_detail', university_id=university.id) }}" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{ university.name }}</h6>
+                                    <small>{{ university.type }}</small>
+                                </div>
+                                <p class="mb-1">{{ university.location }}</p>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Henüz popüler üniversite bulunmuyor.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Duyurular -->
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Duyurular</h5>
+                </div>
+                <div class="card-body">
+                    {% if announcements %}
+                        <div class="list-group">
+                            {% for announcement in announcements %}
+                            <a href="{{ url_for('content_detail', content_id=announcement.id) }}" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{ announcement.title }}</h6>
+                                    <small>{{ announcement.timestamp.strftime('%d.%m.%Y') }}</small>
+                                </div>
+                                <p class="mb-1">{{ announcement.content[:100] }}{% if announcement.content|length > 100 %}...{% endif %}</p>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Henüz duyuru bulunmuyor.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

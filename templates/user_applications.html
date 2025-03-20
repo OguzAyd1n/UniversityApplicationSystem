@@ -1,0 +1,45 @@
+<!-- templates/user_applications.html -->
+
+{% extends "base.html" %}
+
+{% block title %}Başvurularım{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Başvurularım</h2>
+    
+    <div class="mb-4">
+        <a href="{{ url_for('advanced_search') }}" class="btn btn-primary">Yeni Başvuru Yap</a>
+    </div>
+
+    {% if applications %}
+    <div class="row">
+        {% for application in applications %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{ application.university.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <strong>Başvuru Tarihi:</strong> {{ application.application_date.strftime('%d.%m.%Y') }}<br>
+                        <strong>Durum:</strong> 
+                        <span class="badge {% if application.status == 'Kabul Edildi' %}badge-success
+                                         {% elif application.status == 'Reddedildi' %}badge-danger
+                                         {% else %}badge-warning{% endif %}">
+                            {{ application.status }}
+                        </span>
+                    </p>
+                    <a href="#" class="btn btn-info btn-sm">Detayları Görüntüle</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        Henüz bir başvurunuz bulunmamaktadır. Yeni bir başvuru yapmak için yukarıdaki butonu kullanabilirsiniz.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Arama Sonuçları{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Arama Sonuçları</h2>
+    
+    <div class="mb-4">
+        <a href="{{ url_for('advanced_search') }}" class="btn btn-secondary">Yeni Arama</a>
+    </div>
+
+    {% if results %}
+    <div class="row">
+        {% for result in results %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{ result.university.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <strong>Başvuru Tarihi:</strong> {{ result.application_date.strftime('%d.%m.%Y') }}<br>
+                        <strong>Durum:</strong> 
+                        <span class="badge {% if result.status == 'Kabul Edildi' %}badge-success
+                                         {% elif result.status == 'Reddedildi' %}badge-danger
+                                         {% else %}badge-warning{% endif %}">
+                            {{ result.status }}
+                        </span>
+                    </p>
+                    <a href="#" class="btn btn-primary btn-sm">Başvur</a>
+                    <a href="#" class="btn btn-info btn-sm">Detaylar</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        Arama kriterlerinize uygun sonuç bulunamadı.
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

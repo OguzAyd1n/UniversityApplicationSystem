@@ -1,0 +1,16 @@
+<!-- templates/user_activity.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}My Activity{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>My Activity</h2>
+        <ul>
+            {% for activity in activities %}
+                <li>{{ activity.timestamp }} - {{ activity.description }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

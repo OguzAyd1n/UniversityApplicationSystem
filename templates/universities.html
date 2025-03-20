@@ -1,0 +1,299 @@
+<!-- universities.html -->
+{% extends "base.html" %}
+
+{% block title %}Üniversiteler{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2 class="mb-3">Üniversite Listesi</h2>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#advancedSearch">
+                                Gelişmiş Arama <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <button class="btn btn-secondary ml-2" type="button" id="showMap">
+                                Haritada Göster <i class="fas fa-map-marker-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="collapse mb-4" id="advancedSearch">
+                        <div class="card card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="universitySearch">Üniversite Adı</label>
+                                        <input type="text" id="universitySearch" class="form-control" placeholder="Üniversite ara...">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="departmentSearch">Bölüm</label>
+                                        <input type="text" id="departmentSearch" class="form-control" placeholder="Bölüm ara...">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="cityFilter">Şehir</label>
+                                        <select id="cityFilter" class="form-control">
+                                            <option value="">Tüm Şehirler</option>
+                                            {% for city in cities %}
+                                            <option value="{{ city }}">{{ city }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="universityType">Üniversite Türü</label>
+                                        <select id="universityType" class="form-control">
+                                            <option value="">Tümü</option>
+                                            <option value="Devlet">Devlet</option>
+                                            <option value="Vakıf">Vakıf</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="scoreType">Puan Türü</label>
+                                        <select id="scoreType" class="form-control">
+                                            <option value="">Tümü</option>
+                                            <option value="SAY">Sayısal</option>
+                                            <option value="EA">Eşit Ağırlık</option>
+                                            <option value="SÖZ">Sözel</option>
+                                            <option value="DİL">Dil</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="minScore">Minimum Puan</label>
+                                        <input type="number" id="minScore" class="form-control" placeholder="Min. puan">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="maxQuota">Minimum Kontenjan</label>
+                                        <input type="number" id="maxQuota" class="form-control" placeholder="Min. kontenjan">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="language">Eğitim Dili</label>
+                                        <select id="language" class="form-control">
+                                            <option value="">Tümü</option>
+                                            <option value="Türkçe">Türkçe</option>
+                                            <option value="İngilizce">İngilizce</option>
+                                            <option value="Karma">Karma</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-12">
+                                    <div id="searchHistory" class="small text-muted">
+                                        <strong>Son Aramalar:</strong>
+                                        <span id="recentSearches"></span>
+                                    </div>
+                                    <div id="popularSearches" class="small text-muted mt-1">
+                                        <strong>Popüler Aramalar:</strong>
+                                        <span class="popular-search-tag">Bilgisayar Mühendisliği</span>
+                                        <span class="popular-search-tag">Tıp</span>
+                                        <span class="popular-search-tag">İstanbul</span>
+                                        <span class="popular-search-tag">Ankara</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Harita Görünümü -->
+                    <div id="mapView" class="collapse mb-4">
+                        <div id="map" style="height: 500px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="universityList">
+        {% for university in universities %}
+        <div class="col-md-6 mb-4 university-card" 
+             data-city="{{ university.location }}"
+             data-type="{{ university.university_type }}"
+             data-lat="{{ university.latitude }}"
+             data-lng="{{ university.longitude }}">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {% if university.logo_url %}
+                            <img src="{{ university.logo_url }}" class="img-fluid university-logo" alt="{{ university.name }} Logo">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-9">
+                            <h5 class="card-title">{{ university.name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                {{ university.location }} • {{ university.university_type }}
+                            </h6>
+                            <p class="card-text">{{ university.description }}</p>
+                            <div class="mt-2">
+                                <span class="badge badge-info">Kuruluş: {{ university.founded_year }}</span>
+                                {% if university.departments|length > 0 %}
+                                <span class="badge badge-success">{{ university.departments|length }} Bölüm</span>
+                                {% endif %}
+                            </div>
+                            <div class="mt-3">
+                                <a href="{{ url_for('university_detail', university_id=university.id) }}" class="btn btn-primary">Detayları Gör</a>
+                                {% if university.website %}
+                                <a href="{{ university.website }}" target="_blank" class="btn btn-outline-secondary ml-2">
+                                    <i class="fas fa-external-link-alt"></i> Web Sitesi
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Harita için Leaflet CSS ve JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Arama geçmişini localStorage'dan al
+    let searchHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+    
+    // Arama geçmişini göster
+    function updateSearchHistory() {
+        const recentSearches = searchHistory.slice(0, 5).join(' • ');
+        $('#recentSearches').text(recentSearches);
+    }
+    updateSearchHistory();
+
+    // Harita başlatma
+    let map = null;
+    $('#showMap').click(function() {
+        $('#mapView').collapse('toggle');
+        if (!map) {
+            map = L.map('map').setView([39.9334, 32.8597], 6);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            
+            // Üniversiteleri haritaya ekle
+            $('.university-card').each(function() {
+                const lat = $(this).data('lat');
+                const lng = $(this).data('lng');
+                const name = $(this).find('.card-title').text();
+                
+                if (lat && lng) {
+                    L.marker([lat, lng])
+                        .bindPopup(name)
+                        .addTo(map);
+                }
+            });
+        }
+    });
+
+    // Üniversite araması autocomplete
+    $("#universitySearch").autocomplete({
+        source: function(request, response) {
+            $.getJSON("/autocomplete", {
+                term: request.term,
+                type: 'university'
+            }, function(data) {
+                response(data);
+            });
+        },
+        minLength: 2,
+        select: function(event, ui) {
+            searchHistory.unshift(ui.item.value);
+            searchHistory = [...new Set(searchHistory)].slice(0, 10);
+            localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+            updateSearchHistory();
+            window.location.href = "/university/" + ui.item.id;
+        }
+    });
+
+    // Gelişmiş filtreleme
+    function filterUniversities() {
+        const searchTerm = $("#universitySearch").val().toLowerCase();
+        const selectedCity = $("#cityFilter").val().toLowerCase();
+        const departmentTerm = $("#departmentSearch").val().toLowerCase();
+        const universityType = $("#universityType").val();
+        const scoreType = $("#scoreType").val();
+        const minScore = $("#minScore").val();
+        const maxQuota = $("#maxQuota").val();
+        const language = $("#language").val();
+
+        $(".university-card").each(function() {
+            const card = $(this);
+            const universityName = card.find(".card-title").text().toLowerCase();
+            const city = card.data("city").toLowerCase();
+            const type = card.data("type");
+            const description = card.find(".card-text").text().toLowerCase();
+
+            const matchesSearch = universityName.includes(searchTerm);
+            const matchesCity = !selectedCity || city === selectedCity;
+            const matchesDepartment = !departmentTerm || description.includes(departmentTerm);
+            const matchesType = !universityType || type === universityType;
+
+            if (matchesSearch && matchesCity && matchesDepartment && matchesType) {
+                card.show();
+            } else {
+                card.hide();
+            }
+        });
+    }
+
+    // Tüm filtreleme inputlarını dinle
+    $("#universitySearch, #departmentSearch, #minScore, #maxQuota").on("keyup", filterUniversities);
+    $("#cityFilter, #universityType, #scoreType, #language").on("change", filterUniversities);
+
+    // Popüler arama etiketlerine tıklama
+    $(".popular-search-tag").click(function() {
+        const searchTerm = $(this).text();
+        $("#universitySearch").val(searchTerm).trigger("keyup");
+    });
+});
+</script>
+
+<style>
+.popular-search-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    margin: 0 4px;
+    background-color: #e9ecef;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.popular-search-tag:hover {
+    background-color: #dee2e6;
+}
+
+.university-logo {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: contain;
+}
+
+.badge {
+    font-size: 0.9em;
+    padding: 5px 10px;
+}
+</style>
+{% endblock %}

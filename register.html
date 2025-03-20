@@ -1,0 +1,29 @@
+<!-- register.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Graduate School Registration</title>
+</head>
+<body>
+    <h1>Register for Graduate School</h1>
+    <form method="POST" action="{{ url_for('register') }}">
+        {{ form.hidden_tag() }}
+        <p>{{ form.name.label }}<br>{{ form.name() }}</p>
+        <p>{{ form.email.label }}<br>{{ form.email() }}</p>
+        <p>{{ form.phone.label }}<br>{{ form.phone() }}</p>
+        <p>{{ form.university.label }}<br>{{ form.university() }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+</body>
+</html>
+
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>Register for Graduate School</h2>
+        <!-- Kayıt formu ve diğer içerik -->
+    </section>
+{% endblock %}

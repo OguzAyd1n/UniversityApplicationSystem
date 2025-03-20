@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üniversite Karşılaştırma</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .rating-input {
+            width: 60px;
+        }
+        .description {
+            font-size: 0.8em;
+            color: #555;
+        }
+        .total-score {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Üniversite Karşılaştırma Sonuçları</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Üniversite</th>
+                <th>Konum</th>
+                <th>Popüler Programlar <span class="description">(Açıklama: En çok talep gören programlar)</span></th>
+                <th>Üniversite Hayatı <span class="description">(Açıklama: Kampüs yaşamı, etkinlikler)</span></th>
+                <th>Akademik Başarı <span class="description">(Açıklama: Akademik ün, öğrenci başarısı)</span></th>
+                <th>Toplam Puan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for university in universities %}
+                <tr>
+                    <td>{{ university.name }}</td>
+                    <td>{{ university.location }}</td>
+                    <td>{{ university.popular_programs }}</td>
+                    <td>{{ university.student_life }}</td>
+                    <td>{{ university.academic_achievement }}</td>
+                    <td>
+                        <input type="number" class="rating-input" name="rating_{{ university.id }}" min="0" max="10" step="0.1" placeholder="Puanla">
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button onclick="calculateTotal()">Toplam Puanları Hesapla</button>
+
+    <p class="total-score" id="totalScore">Toplam Puan: 0</p>
+
+    <script>
+        function calculateTotal() {
+            var totalScores = document.querySelectorAll('.rating-input');
+            var total = 0;
+            totalScores.forEach(function(score) {
+                total += parseFloat(score.value) || 0;
+            });
+            var totalScoreElement = document.getElementById('totalScore');
+            totalScoreElement.textContent = 'Toplam Puan: ' + total.toFixed(1);
+            totalScoreElement.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>

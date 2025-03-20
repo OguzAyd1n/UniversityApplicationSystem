@@ -1,0 +1,68 @@
+<!-- templates/message_list.html -->
+
+{% extends "base.html" %}
+
+{% block title %}Mesajlar{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Mesajlarım</h2>
+            <a href="{{ url_for('send_message') }}" class="btn btn-primary">Yeni Mesaj</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Gelen Mesajlar</h5>
+                </div>
+                <div class="card-body">
+                    {% if received_messages %}
+                        <div class="list-group">
+                            {% for message in received_messages %}
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">{{ message.sender.username }}</h6>
+                                        <small class="text-muted">{{ message.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+                                    </div>
+                                    <p class="mb-1">{{ message.content }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Henüz gelen mesajınız bulunmamaktadır.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Gönderilen Mesajlar</h5>
+                </div>
+                <div class="card-body">
+                    {% if sent_messages %}
+                        <div class="list-group">
+                            {% for message in sent_messages %}
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">{{ message.recipient.username }}</h6>
+                                        <small class="text-muted">{{ message.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+                                    </div>
+                                    <p class="mb-1">{{ message.content }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Henüz gönderilen mesajınız bulunmamaktadır.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

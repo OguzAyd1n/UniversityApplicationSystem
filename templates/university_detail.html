@@ -1,0 +1,41 @@
+<!-- university_detail.html -->
+
+{% extends "base.html" %}
+
+{% block title %}{{ university.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">{{ university.name }}</h2>
+            <h6 class="card-subtitle mb-3 text-muted">{{ university.location }}</h6>
+            
+            <div class="row mb-4">
+                <div class="col-md-8">
+                    <h4>Üniversite Hakkında</h4>
+                    <p class="card-text">{{ university.description }}</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Hızlı Bilgiler</h5>
+                            <p><strong>Konum:</strong> {{ university.location }}</p>
+                            <p><strong>Kuruluş:</strong> {{ university.created_at.strftime('%Y-%m-%d') }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('universities') }}" class="btn btn-secondary me-2">Üniversite Listesine Dön</a>
+                {% if current_user.is_authenticated %}
+                <form action="{{ url_for('apply_university', university_id=university.id) }}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-primary">Başvuru Yap</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

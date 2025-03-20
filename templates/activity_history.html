@@ -1,0 +1,16 @@
+<!-- templates/activity_history.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Activity History{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>Activity History</h2>
+        <ul>
+            {% for activity in activities %}
+                <li>{{ activity.timestamp }} - {{ activity.description }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

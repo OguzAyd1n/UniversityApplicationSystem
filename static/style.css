@@ -1,0 +1,241 @@
+/* styles.css */
+
+/* Genel sayfa stilini belirle */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sayfa başlığına özel stil */
+h1 {
+    color: #333;
+}
+
+/* Menü bağlantılarına özel stil */
+.navbar a {
+    color: #007bff;
+}
+
+/* Karşılaştırma sayfasındaki tablo özel stilleri */
+#comparisonTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#comparisonTable th, #comparisonTable td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+#comparisonTable th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Karşılaştırma sonuçları için özel stil */
+#comparisonResults {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Form öğelerine özel stil */
+form {
+    margin-top: 20px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"], form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+form button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Footer özel stil */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Navbar Stilleri */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+/* Kart Stilleri */
+.card {
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    border: none;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+/* Form Stilleri */
+.form-control {
+    border-radius: 0.25rem;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Buton Stilleri */
+.btn {
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Alert Stilleri */
+.alert {
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+/* Jumbotron Stilleri */
+.jumbotron {
+    background-color: #fff;
+    border-radius: 0.3rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    padding: 2rem;
+}
+
+/* Profil Resmi Stilleri */
+.profile-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 20px auto;
+    display: block;
+    border: 5px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+/* Mesaj Listesi Stilleri */
+.message-list {
+    list-style: none;
+    padding: 0;
+}
+
+.message-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.message-item:last-child {
+    border-bottom: none;
+}
+
+/* İçerik Kartı Stilleri */
+.content-card {
+    margin-bottom: 20px;
+}
+
+.content-card .card-footer {
+    background-color: #fff;
+    border-top: 1px solid rgba(0,0,0,.125);
+    padding: 0.75rem 1.25rem;
+}
+
+/* Responsive Düzenlemeler */
+@media (max-width: 768px) {
+    .jumbotron {
+        padding: 1rem;
+    }
+
+    .card {
+        margin-bottom: 15px;
+    }
+}
+
+/* Autocomplete Styles */
+.ui-autocomplete {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ui-autocomplete .ui-menu-item {
+    padding: 8px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.ui-autocomplete .ui-menu-item:last-child {
+    border-bottom: none;
+}
+
+.ui-autocomplete .ui-menu-item:hover {
+    background-color: #f8f9fa;
+}
+
+.ui-autocomplete .ui-menu-item div {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Search Input Styles */
+#universitySearch {
+    padding: 10px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+#universitySearch:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}

@@ -1,0 +1,16 @@
+<!-- templates/inbox.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Inbox{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>Inbox</h2>
+        <ul>
+            {% for message in received_messages %}
+                <li>{{ message.timestamp }} - {{ message.content }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

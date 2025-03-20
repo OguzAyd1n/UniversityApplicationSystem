@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}List of Universities{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>List of Universities</h2>
+        <!-- Üniversiteleri listeleme içeriği -->
+    </section>
+{% endblock %}
+
+{% extends 'base.html' %}
+
+{% block title %}List of Universities{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>List of Universities</h2>
+        <ul>
+            {% for university in universities %}
+                <li>{{ university.name }} - {{ university.location }} - {{ university.description }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

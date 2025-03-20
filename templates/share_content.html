@@ -1,0 +1,21 @@
+<!-- templates/share_content.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Share Content{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>Share Content</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <label for="title">Title:</label>
+            {{ form.title(size=20) }}
+            <br>
+            <label for="content">Content:</label>
+            {{ form.content(cols=40, rows=10) }}
+            <br>
+            <button type="submit">Share Content</button>
+        </form>
+    </section>
+{% endblock %}

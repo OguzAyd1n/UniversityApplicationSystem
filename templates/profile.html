@@ -1,0 +1,49 @@
+<!-- templates/profile.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>{{ user.name }}'s Profile</h2>
+        <ul>
+            <li><strong>Email:</strong> {{ user.email }}</li>
+            <li><strong>Phone:</strong> {{ user.phone }}</li>
+            <li><strong>University:</strong> {{ user.university }}</li>
+            <!-- Diğer profil bilgilerini ekleyebilirsiniz -->
+        </ul>
+    </section>
+{% endblock %}
+
+<section>
+    <h2>{{ user.name }}'s Profile</h2>
+    <ul>
+        <!-- Profil bilgileri gösterilir -->
+    </ul>
+    <p><a href="{{ url_for('edit_profile') }}">Edit Profile</a></p>
+</section>
+
+<section>
+    <h2>{{ user.name }}'s Profile</h2>
+    {% if user.profile_picture %}
+        <img src="{{ url_for('static', filename='uploads/' + user.profile_picture) }}" alt="Profile Picture">
+    {% else %}
+        <p>No profile picture available.</p>
+    {% endif %}
+    <ul>
+        <!-- Diğer profil bilgileri gösterilir -->
+    </ul>
+    <p><a href="{{ url_for('edit_profile') }}">Edit Profile</a></p>
+</section>
+
+<section>
+    <h2>{{ user.name }}'s Profile</h2>
+    <ul>
+        <li><a href="{{ url_for('user_applications', user_id=user.id) }}">My Applications</a></li>
+        <li><a href="{{ url_for('user_messages') }}">My Messages</a></li>
+        <li><a href="{{ url_for('user_activity') }}">My Activity</a></li>
+    </ul>
+    <!-- Diğer profil bilgileri gösterilir -->
+    <p><a href="{{ url_for('edit_profile') }}">Edit Profile</a></p>
+</section>

@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}ÖSYM Bilgileri{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">ÖSYM Bilgileriniz</h4>
+                </div>
+                <div class="card-body">
+                    {% if not current_user.has_osym_info %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> Size en uygun bölümleri önerebilmemiz için lütfen ÖSYM bilgilerinizi girin.
+                    </div>
+                    {% endif %}
+
+                    <ul class="nav nav-tabs" id="osymTabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="manual-tab" data-toggle="tab" href="#manual" role="tab">
+                                <i class="fas fa-edit"></i> Manuel Giriş
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="auto-tab" data-toggle="tab" href="#auto" role="tab">
+                                <i class="fas fa-sync-alt"></i> ÖSYM'den Otomatik Çek
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content mt-3" id="osymTabContent">
+                        <!-- Manuel Giriş Formu -->
+                        <div class="tab-pane fade show active" id="manual" role="tabpanel">
+                            <form method="POST" action="{{ url_for('osym_info') }}" enctype="multipart/form-data">
+                                {{ form.hidden_tag() }}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.tc_no.label(class="form-control-label") }}
+                                            {{ form.tc_no(class="form-control") }}
+                                            {% if form.tc_no.errors %}
+                                                {% for error in form.tc_no.errors %}
+                                                    <small class="text-danger">{{ error }}</small>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.osym_no.label(class="form-control-label") }}
+                                            {{ form.osym_no(class="form-control") }}
+                                            {% if form.osym_no.errors %}
+                                                {% for error in form.osym_no.errors %}
+                                                    <small class="text-danger">{{ error }}</small>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.year.label(class="form-control-label") }}
+                                    {{ form.year(class="form-control") }}
+                                </div>
+
+                                <h5 class="mt-4">Puan Bilgileri</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.score_say.label(class="form-control-label") }}
+                                            {{ form.score_say(class="form-control") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.rank_say.label(class="form-control-label") }}
+                                            {{ form.rank_say(class="form-control") }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.score_ea.label(class="form-control-label") }}
+                                            {{ form.score_ea(class="form-control") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.rank_ea.label(class="form-control-label") }}
+                                            {{ form.rank_ea(class="form-control") }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.score_soz.label(class="form-control-label") }}
+                                            {{ form.score_soz(class="form-control") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.rank_soz.label(class="form-control-label") }}
+                                            {{ form.rank_soz(class="form-control") }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.score_dil.label(class="form-control-label") }}
+                                            {{ form.score_dil(class="form-control") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.rank_dil.label(class="form-control-label") }}
+                                            {{ form.rank_dil(class="form-control") }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-4">
+                                    {{ form.submit(class="btn btn-primary btn-block") }}
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Otomatik Çekme Formu -->
+                        <div class="tab-pane fade" id="auto" role="tabpanel">
+                            <form method="POST" action="{{ url_for('fetch_osym_data_endpoint') }}" id="autoFetchForm">
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle"></i> 
+                                    Bu özellik ÖSYM'nin resmi sitesinden bilgilerinizi çekecektir. 
+                                    Lütfen TC Kimlik numaranızı ve ÖSYM şifrenizi girin.
+                                </div>
+                                <div class="form-group">
+                                    <label for="tc_no_auto">TC Kimlik No</label>
+                                    <input type="text" class="form-control" id="tc_no_auto" name="tc_no" required 
+                                           pattern="\d{11}" maxlength="11" placeholder="TC Kimlik Numaranız">
+                                </div>
+                                <div class="form-group">
+                                    <label for="osym_no_auto">ÖSYM Şifresi</label>
+                                    <input type="password" class="form-control" id="osym_no_auto" name="osym_no" required 
+                                           minlength="8" placeholder="ÖSYM Şifreniz">
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="fetchButton">
+                                    <i class="fas fa-download"></i> Bilgileri Getir
+                                </button>
+                                <div id="fetchStatus" class="mt-3" style="display: none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="sr-only">Yükleniyor...</span>
+                                    </div>
+                                    <span class="ml-2">Bilgiler ÖSYM'den çekiliyor, lütfen bekleyin...</span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if current_user.has_osym_info and recommendations %}
+            <div class="card mt-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Size Önerilen Bölümler</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for dept in recommendations %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ dept.name }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{ dept.university.name }}</h6>
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            <i class="fas fa-graduation-cap"></i> {{ dept.score_type }} |
+                                            <i class="fas fa-users"></i> Kontenjan: {{ dept.quota }} |
+                                            <i class="fas fa-language"></i> {{ dept.language }}
+                                        </small>
+                                    </p>
+                                    <p class="card-text">
+                                        <strong>Taban Puan:</strong> {{ "%.2f"|format(dept.base_score) }}<br>
+                                        <strong>Tavan Puan:</strong> {{ "%.2f"|format(dept.ceiling_score) }}
+                                    </p>
+                                    <a href="{{ url_for('university_detail', university_id=dept.university.id) }}" 
+                                       class="btn btn-outline-primary btn-sm">
+                                        Üniversite Detayları
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#autoFetchForm').on('submit', function(e) {
+        e.preventDefault();
+        $('#fetchButton').prop('disabled', true);
+        $('#fetchStatus').show();
+        
+        $.ajax({
+            url: $(this).attr('action'),
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert('Bilgiler çekilirken bir hata oluştu: ' + response.error);
+                }
+            },
+            error: function() {
+                alert('Sunucu ile iletişim kurulurken bir hata oluştu.');
+            },
+            complete: function() {
+                $('#fetchButton').prop('disabled', false);
+                $('#fetchStatus').hide();
+            }
+        });
+    });
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,57 @@
+<!-- templates/edit_profile.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>Edit Your Profile</h2>
+        <form method="POST">
+            <label for="name">Name:</label>
+            <input type="text" name="name" value="{{ user.name }}" required>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" value="{{ user.email }}" required>
+
+            <label for="phone">Phone:</label>
+            <input type="text" name="phone" value="{{ user.phone }}" required>
+
+            <label for="university">University:</label>
+            <input type="text" name="university" value="{{ user.university }}" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </section>
+{% endblock %}
+
+<!-- ... (diğer form elemanları) ... -->
+
+<label for="profile_picture">Profile Picture:</label>
+<input type="file" name="profile_picture">
+
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>Edit Profile</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <label for="name">Name:</label>
+            {{ form.name(size=20) }}
+            <br>
+            <label for="email">Email:</label>
+            {{ form.email(size=20) }}
+            <br>
+            <label for="phone">Phone:</label>
+            {{ form.phone(size=20) }}
+            <br>
+            <label for="university">University:</label>
+            {{ form.university(size=20) }}
+            <br>
+            <button type="submit">Update Profile</button>
+        </form>
+    </section>
+{% endblock %}

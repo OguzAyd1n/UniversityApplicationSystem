@@ -1,0 +1,23 @@
+<!-- templates/user_messages.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}My Messages{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>My Messages</h2>
+        <h3>Received Messages</h3>
+        <ul>
+            {% for message in received_messages %}
+                <li>{{ message.timestamp }} - {{ message.content }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Sent Messages</h3>
+        <ul>
+            {% for message in sent_messages %}
+                <li>{{ message.timestamp }} - {{ message.content }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

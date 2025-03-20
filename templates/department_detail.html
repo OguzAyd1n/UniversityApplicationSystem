@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">{{ department.name }}</h4>
+            <small>{{ department.university.name }}</small>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Bölüm Bilgileri</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Puan Türü:</strong> {{ department.score_type }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Kontenjan:</strong> {{ department.quota }}
+                        </li>
+                        {% if department.score_info %}
+                        <li class="list-group-item">
+                            <strong>Taban Puan:</strong> {{ "%.3f"|format(department.score_info.base_score) }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Tavan Puan:</strong> {{ "%.3f"|format(department.score_info.ceiling_score) }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Puan Yılı:</strong> {{ department.score_info.year }}
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>Üniversite Bilgileri</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Konum:</strong> {{ department.university.location }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Tür:</strong> {{ department.university.type }}
+                        </li>
+                        {% if department.university.website %}
+                        <li class="list-group-item">
+                            <strong>Website:</strong> 
+                            <a href="{{ department.university.website }}" target="_blank">
+                                {{ department.university.website }}
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            {% if current_user.is_authenticated %}
+            <div class="mt-4">
+                <form action="{{ url_for('add_application', department_id=department.id) }}" method="post">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Başvuru Yap
+                    </button>
+                </form>
+            </div>
+            {% else %}
+            <div class="alert alert-info mt-4">
+                <p>Başvuru yapabilmek için lütfen <a href="{{ url_for('login') }}">giriş yapın</a> veya <a href="{{ url_for('register') }}">kayıt olun</a>.</p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Geri Dön
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %} 
